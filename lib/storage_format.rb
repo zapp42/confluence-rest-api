@@ -63,25 +63,20 @@ class PagePayload
         puts "*** ERROR: Undefined parameter(s)\n    Inspection: #{self.inspect}"
         exit(false)
       else
-        %Q(
-        {
-            "id":"#{@pageid}",
-            "type":"page",
-            "title":"#{@title}",
-            "space": {
-                "key":"#{@spacekey}"
+        p = {
+            version: {
+                number: @version.to_i
             },
-            "body": {
-                "storage": {
-                    "value":"#{@content}",
-                    "representation":"storage"
+            title: @title,
+            type: "page",
+            body: {
+                storage: {
+                    value: @content,
+                    representation: "storage"
                 }
-            },
-            "version": {
-                "number":"#{@version}"
             }
         }
-        )
+        p.to_json
       end
     when 'update_page_with_parent'
       if [@pageid, @parentid, @title, @spacekey, @content, @version].include?(nil)
